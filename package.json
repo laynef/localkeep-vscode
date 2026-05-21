@@ -1,0 +1,176 @@
+{
+  "name": "sage-ai",
+  "publisher": "sageworksai",
+  "displayName": "Sage AI",
+  "description": "Local-first AI coding assistant \u2014 200+ free models, no API key required",
+  "version": "0.1.0",
+  "icon": "media/sage-logo.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sageworksai/sage-vscode"
+  },
+  "homepage": "https://sageworksai.com",
+  "bugs": {
+    "url": "https://github.com/sageworksai/sage-vscode/issues"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "AI",
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "ai",
+    "copilot",
+    "llm",
+    "local",
+    "ollama",
+    "free",
+    "sage"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0",
+    "@vscode/vsce": "^2.22.0"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "sage.explain",
+        "title": "Sage: Explain Selection",
+        "category": "Sage"
+      },
+      {
+        "command": "sage.refactor",
+        "title": "Sage: Refactor Selection",
+        "category": "Sage"
+      },
+      {
+        "command": "sage.generateTests",
+        "title": "Sage: Generate Tests for File",
+        "category": "Sage"
+      },
+      {
+        "command": "sage.fixError",
+        "title": "Sage: Fix Error at Cursor",
+        "category": "Sage"
+      },
+      {
+        "command": "sage.openChat",
+        "title": "Sage: Open Chat Panel",
+        "category": "Sage"
+      },
+      {
+        "command": "sage.commitMessage",
+        "title": "Sage: Generate Commit Message",
+        "category": "Sage"
+      },
+      {
+        "command": "sage.prDescription",
+        "title": "Sage: Generate PR Description",
+        "category": "Sage"
+      },
+      {
+        "command": "sage.listModels",
+        "title": "Sage: Switch Model",
+        "category": "Sage"
+      },
+      {
+        "command": "sage.runPrompt",
+        "title": "Sage: Run Agentic Task...",
+        "category": "Sage"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "sage.explain",
+          "when": "editorHasSelection",
+          "group": "sage@1"
+        },
+        {
+          "command": "sage.refactor",
+          "when": "editorHasSelection",
+          "group": "sage@2"
+        },
+        {
+          "command": "sage.generateTests",
+          "group": "sage@3"
+        },
+        {
+          "command": "sage.fixError",
+          "when": "editorHasSelection",
+          "group": "sage@4"
+        }
+      ],
+      "scm/title": [
+        {
+          "command": "sage.commitMessage",
+          "group": "sage"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "sage.openChat",
+        "key": "ctrl+shift+s",
+        "mac": "cmd+shift+s"
+      },
+      {
+        "command": "sage.explain",
+        "key": "ctrl+shift+e",
+        "mac": "cmd+shift+e",
+        "when": "editorHasSelection"
+      },
+      {
+        "command": "sage.refactor",
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r",
+        "when": "editorHasSelection"
+      },
+      {
+        "command": "sage.fixError",
+        "key": "ctrl+shift+f",
+        "mac": "cmd+shift+f",
+        "when": "editorHasSelection"
+      }
+    ],
+    "configuration": {
+      "title": "Sage AI",
+      "properties": {
+        "sage.model": {
+          "type": "string",
+          "default": "",
+          "description": "Model to use (blank = ~/.sage/config.json default)"
+        },
+        "sage.autoComplete": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable inline ghost-text completions (adds latency)"
+        },
+        "sage.contextLines": {
+          "type": "number",
+          "default": 50,
+          "description": "Lines of surrounding context to include"
+        },
+        "sage.apiBase": {
+          "type": "string",
+          "default": "https://sageworksai.com",
+          "description": "Override API base URL"
+        }
+      }
+    }
+  }
+}
