@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/laynef/localkeep-vscode/main/media/lk-logo.png" width="96" alt="Local Keep AI" />
+</p>
+
 # Local Keep AI — VS Code Extension
 
 Local-first AI coding assistant. **1,000+ free models, no API key required** for local models.
