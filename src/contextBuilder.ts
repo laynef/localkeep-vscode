@@ -14,7 +14,7 @@ export interface CodeContext {
 export function buildContext(editor: vscode.TextEditor): CodeContext {
   const doc = editor.document;
   const sel = editor.selection;
-  const cfg = vscode.workspace.getConfiguration('sage');
+  const cfg = vscode.workspace.getConfiguration('lk');
   const contextLines = cfg.get<number>('contextLines') ?? 50;
 
   const wsRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath ?? path.dirname(doc.uri.fsPath);

@@ -4,23 +4,68 @@ import * as os from 'os';
 import * as path from 'path';
 import * as vscode from 'vscode';
 
+// Absolute fallbacks, tried only after a real PATH search. These are the
+// common pip/pipx/homebrew install locations; they are deliberately NOT the
+// primary lookup, because most installs land somewhere else entirely
+// (conda envs, virtualenvs, asdf, /usr/bin, Scoop, ...).
 const CANDIDATE_PATHS = [
-  'sage',
+  path.join(os.homedir(), '.local', 'bin', 'lk'),
   path.join(os.homedir(), '.local', 'bin', 'sage'),
+  path.join(os.homedir(), '.pyenv', 'shims', 'lk'),
   path.join(os.homedir(), '.pyenv', 'shims', 'sage'),
   '/opt/homebrew/bin/sage',
   '/usr/local/bin/sage',
-  path.join(os.homedir(), 'AppData', 'Roaming', 'Python', 'Scripts', 'sage.exe'),
+  path.join(os.homedir(), 'AppData', 'Roaming', 'Python', 'Scripts', 'lk.exe'),
 ];
 
 export interface Auth { id_token: string; tier?: string; }
 
+function isExecutableFile(p: string): boolean {
+  try {
+    if (!fs.statSync(p).isFile()) { return false; }
+    fs.accessSync(p, fs.constants.X_OK);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Resolve an executable by searching $PATH, the way a shell does.
+ *
+ * This exists because `fs.accessSync('sage', X_OK)` does NOT search PATH — it
+ * resolves 'sage' relative to the current working directory. Relying on that
+ * made the extension report "sage binary not found" on any machine where sage
+ * was installed on PATH but outside the hardcoded CANDIDATE_PATHS list (conda,
+ * virtualenv, asdf, Scoop, distro packages, ...).
+ */
+export function resolveOnPath(command: string): string | null {
+  const rawPath = process.env.PATH;
+  if (!rawPath) { return null; }
+  // On Windows an executable needs one of the PATHEXT suffixes appended.
+  const exts = process.platform === 'win32'
+    ? (process.env.PATHEXT || '.COM;.EXE;.BAT;.CMD').split(';').filter(Boolean)
+    : [''];
+  for (const dir of rawPath.split(path.delimiter)) {
+    if (!dir) { continue; }
+    for (const ext of exts) {
+      const candidate = path.join(dir, command + ext);
+      if (isExecutableFile(candidate)) { return candidate; }
+    }
+  }
+  return null;
+}
+
 export function findSageBinary(): string {
+  // `lk` is THE Local Keep AI command; `sage` remains as the CLI's own
+  // compatibility alias for older installs.
+  const onPath = resolveOnPath('lk') || resolveOnPath('sage');
+  if (onPath) { return onPath; }
   for (const p of CANDIDATE_PATHS) {
-    try { fs.accessSync(p, fs.constants.X_OK); return p; } catch { /* keep trying */ }
+    if (isExecutableFile(p)) { return p; }
   }
   throw new Error(
-    'sage binary not found. Install with: pip install sage-ai-cli\n' +
+    'sage binary not found. Install with: pip install local-keep-ai-cli\n' +
     'Then run: sage login'
   );
 }
@@ -31,7 +76,7 @@ export function readAuth(): Auth | null {
 }
 
 export function readDefaultModel(): string {
-  const cfg = vscode.workspace.getConfiguration('sage');
+  const cfg = vscode.workspace.getConfiguration('lk');
   if (cfg.get<string>('model')) return cfg.get<string>('model')!;
   try {
     const p = path.join(os.homedir(), '.sage', 'config.json');
@@ -76,7 +121,7 @@ export async function streamChat(
 ): Promise<void> {
   const auth = readAuth();
   if (!auth?.id_token) throw new Error('Not logged in. Run: sage login');
-  const apiBase = vscode.workspace.getConfiguration('sage').get<string>('apiBase') || 'https://sageworksai.com';
+  const apiBase = vscode.workspace.getConfiguration('lk').get<string>('apiBase') || 'https://localkeep.ai';
   const res = await fetch(`${apiBase}/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${auth.id_token}` },

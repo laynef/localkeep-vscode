@@ -1,17 +1,17 @@
 {
-  "name": "sage-ai",
-  "publisher": "sageworksai",
-  "displayName": "Sage AI",
-  "description": "Local-first AI coding assistant \u2014 200+ free models, no API key required",
-  "version": "0.1.0",
-  "icon": "media/sage-logo.png",
+  "name": "local-keep-ai",
+  "publisher": "localkeepai",
+  "displayName": "Local Keep AI",
+  "description": "Local-first AI coding assistant — 200+ free models, no API key required",
+  "version": "1.0.0",
+  "icon": "media/lk-logo.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sageworksai/sage-vscode"
+    "url": "https://github.com/laynef/localkeep-vscode"
   },
-  "homepage": "https://sageworksai.com",
+  "homepage": "https://localkeep.ai",
   "bugs": {
-    "url": "https://github.com/sageworksai/sage-vscode/issues"
+    "url": "https://github.com/laynef/localkeep-vscode/issues"
   },
   "engines": {
     "vscode": "^1.85.0"
@@ -48,126 +48,126 @@
   "contributes": {
     "commands": [
       {
-        "command": "sage.explain",
-        "title": "Sage: Explain Selection",
-        "category": "Sage"
+        "command": "lk.explain",
+        "title": "Local Keep AI: Explain Selection",
+        "category": "Local Keep AI"
       },
       {
-        "command": "sage.refactor",
-        "title": "Sage: Refactor Selection",
-        "category": "Sage"
+        "command": "lk.refactor",
+        "title": "Local Keep AI: Refactor Selection",
+        "category": "Local Keep AI"
       },
       {
-        "command": "sage.generateTests",
-        "title": "Sage: Generate Tests for File",
-        "category": "Sage"
+        "command": "lk.generateTests",
+        "title": "Local Keep AI: Generate Tests for File",
+        "category": "Local Keep AI"
       },
       {
-        "command": "sage.fixError",
-        "title": "Sage: Fix Error at Cursor",
-        "category": "Sage"
+        "command": "lk.fixError",
+        "title": "Local Keep AI: Fix Error at Cursor",
+        "category": "Local Keep AI"
       },
       {
-        "command": "sage.openChat",
-        "title": "Sage: Open Chat Panel",
-        "category": "Sage"
+        "command": "lk.openChat",
+        "title": "Local Keep AI: Open Chat Panel",
+        "category": "Local Keep AI"
       },
       {
-        "command": "sage.commitMessage",
-        "title": "Sage: Generate Commit Message",
-        "category": "Sage"
+        "command": "lk.commitMessage",
+        "title": "Local Keep AI: Generate Commit Message",
+        "category": "Local Keep AI"
       },
       {
-        "command": "sage.prDescription",
-        "title": "Sage: Generate PR Description",
-        "category": "Sage"
+        "command": "lk.prDescription",
+        "title": "Local Keep AI: Generate PR Description",
+        "category": "Local Keep AI"
       },
       {
-        "command": "sage.listModels",
-        "title": "Sage: Switch Model",
-        "category": "Sage"
+        "command": "lk.listModels",
+        "title": "Local Keep AI: Switch Model",
+        "category": "Local Keep AI"
       },
       {
-        "command": "sage.runPrompt",
-        "title": "Sage: Run Agentic Task...",
-        "category": "Sage"
+        "command": "lk.runPrompt",
+        "title": "Local Keep AI: Run Agentic Task...",
+        "category": "Local Keep AI"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "sage.explain",
+          "command": "lk.explain",
           "when": "editorHasSelection",
           "group": "sage@1"
         },
         {
-          "command": "sage.refactor",
+          "command": "lk.refactor",
           "when": "editorHasSelection",
           "group": "sage@2"
         },
         {
-          "command": "sage.generateTests",
+          "command": "lk.generateTests",
           "group": "sage@3"
         },
         {
-          "command": "sage.fixError",
+          "command": "lk.fixError",
           "when": "editorHasSelection",
           "group": "sage@4"
         }
       ],
       "scm/title": [
         {
-          "command": "sage.commitMessage",
+          "command": "lk.commitMessage",
           "group": "sage"
         }
       ]
     },
     "keybindings": [
       {
-        "command": "sage.openChat",
+        "command": "lk.openChat",
         "key": "ctrl+shift+s",
         "mac": "cmd+shift+s"
       },
       {
-        "command": "sage.explain",
+        "command": "lk.explain",
         "key": "ctrl+shift+e",
         "mac": "cmd+shift+e",
         "when": "editorHasSelection"
       },
       {
-        "command": "sage.refactor",
+        "command": "lk.refactor",
         "key": "ctrl+shift+r",
         "mac": "cmd+shift+r",
         "when": "editorHasSelection"
       },
       {
-        "command": "sage.fixError",
+        "command": "lk.fixError",
         "key": "ctrl+shift+f",
         "mac": "cmd+shift+f",
         "when": "editorHasSelection"
       }
     ],
     "configuration": {
-      "title": "Sage AI",
+      "title": "Local Keep AI",
       "properties": {
-        "sage.model": {
+        "lk.model": {
           "type": "string",
           "default": "",
           "description": "Model to use (blank = ~/.sage/config.json default)"
         },
-        "sage.autoComplete": {
+        "lk.autoComplete": {
           "type": "boolean",
           "default": false,
           "description": "Enable inline ghost-text completions (adds latency)"
         },
-        "sage.contextLines": {
+        "lk.contextLines": {
           "type": "number",
           "default": 50,
           "description": "Lines of surrounding context to include"
         },
-        "sage.apiBase": {
+        "lk.apiBase": {
           "type": "string",
-          "default": "https://sageworksai.com",
+          "default": "https://localkeep.ai",
           "description": "Override API base URL"
         }
       }

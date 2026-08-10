@@ -1,12 +1,12 @@
 import * as vscode from 'vscode';
-import { readDefaultModel } from './sageClient';
+import { readDefaultModel } from './lkClient';
 
 export class SageStatusBar {
   private _item: vscode.StatusBarItem;
 
   constructor(ctx: vscode.ExtensionContext) {
     this._item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-    this._item.command = 'sage.listModels';
+    this._item.command = 'lk.listModels';
     this._item.tooltip = 'Click to switch Sage model';
     this.update(readDefaultModel());
     this._item.show();

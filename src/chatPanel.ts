@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { readDefaultModel, streamChat } from './sageClient';
+import { readDefaultModel, streamChat } from './lkClient';
 
 export class ChatPanel {
   static currentPanel: ChatPanel | undefined;
