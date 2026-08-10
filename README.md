@@ -35,7 +35,7 @@ All commands also available via right-click context menu and Command Palette (`C
 ## Models
 
 Click the **Local Keep AI** status bar item (bottom right) to switch models. Works with:
-- `cloud:*` — sage-hosted GPU models (free tier + paid)
+- `cloud:*` — Local Keep AI-hosted GPU models (free tier + paid)
 - `openrouter:*` — 100+ free OpenRouter models
 - `ollama:*` — local Ollama models
 - `llama_cpp:*` — local GGUF models
