@@ -8,13 +8,15 @@ Local-first AI coding assistant. **1,000+ free models, no API key required** for
 
 ## Install
 
-Search **"Local Keep AI"** in the VS Code Extensions marketplace, or:
+Install from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=localkeepai.local-keep-ai)
+(also on [Open VSX](https://open-vsx.org/extension/localkeepai/local-keep-ai-cursor) for Cursor/VSCodium),
+search **"Local Keep AI"** in the VS Code Extensions view, or:
 
 ```bash
-code --install-extension sageworksai.local-keep-ai
+code --install-extension localkeepai.local-keep-ai
 ```
 
-Then install the CLI: `pip install local-keep-ai-cli && sage login`
+Then install the CLI: `pip install local-keep-ai-cli && lk login`
 
 ## Features
 
