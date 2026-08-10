@@ -1,17 +1,24 @@
-MIT License
+Local Keep AI Commercial License 1.0
 
-Copyright (c) 2026 Local Keep AI
+Copyright (c) 2026 Man Of Tech LLC. All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This software is part of Local Keep AI and is licensed, not sold. You may
+use it, on any number of your own devices, in connection with a Local Keep
+AI account — including commercial use inside your business — and you may
+view the source and submit improvements.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+You may NOT: resell, redistribute, sublicense or provide this software to
+third parties as a product or service; provide it (or a product whose
+substantial value derives from it) as a hosted or managed service;
+circumvent or tamper with license checks, account requirements, usage
+metering or paid-feature gates; or remove copyright, trademark or license
+notices.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. The full
+license — including ownership, contributions, termination and liability —
+is at:
+
+    https://localkeep.ai/license
+
+Third-party components bundled with this software remain under their own
+licenses. Questions: support@localkeep.ai
