@@ -1,6 +1,6 @@
 # Local Keep AI — VS Code Extension
 
-Local-first AI coding assistant. **200+ free models, no API key required** for local models.
+Local-first AI coding assistant. **1,000+ free models, no API key required** for local models.
 
 ## Install
 
