@@ -2,8 +2,8 @@
   "name": "local-keep-ai",
   "publisher": "localkeepai",
   "displayName": "Local Keep AI",
-  "description": "Local-first AI coding assistant — 1,000+ free models, no API key required",
-  "version": "1.0.1",
+  "description": "Local-first AI coding assistant \u2014 1,000+ free models, no API key required",
+  "version": "1.0.2",
   "icon": "media/lk-logo.png",
   "repository": {
     "type": "git",

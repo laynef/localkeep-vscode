@@ -93,7 +93,10 @@ export function runCommand(
 ): Promise<number> {
   return new Promise((resolve, reject) => {
     const bin = findSageBinary();
-    const env = { ...process.env, NO_COLOR: '1', TERM: 'dumb' };
+    // LK_TRUST asks the CLI for the confidence line. An ENV VAR, not
+    // --trust: an older `lk` exits 2 on an unknown option, breaking the
+    // command outright instead of omitting a line.
+    const env = { ...process.env, NO_COLOR: '1', TERM: 'dumb', LK_TRUST: '1' };
     const proc = cp.spawn(bin, args, { cwd, env, shell: false });
     if (signal) signal.addEventListener('abort', () => proc.kill());
     proc.stdout.on('data', (d: Buffer) => onChunk(d.toString()));
@@ -181,5 +184,11 @@ export function formatTrustLine(p: {
   const tested = !st?.ran ? 'not run' : st.passed ? 'passed' : 'FAILED';
   const n = p.sources?.length ?? 0;
   const src = n ? ` \u00b7 ${n} source${n === 1 ? '' : 's'}` : '';
+  // Nothing measured != measured-and-zero: no sources, no self-test, a
+  // floored-to-zero score means there was no signal to score, not that the
+  // answer is wrong. "very low (0%)" reads as a verdict; say "not assessed".
+  if (n === 0 && !st?.ran && pct === 0) {
+    return 'Confidence: not assessed \u00b7 self-test: not run';
+  }
   return `Confidence: ${label} (${pct}%) \u00b7 self-test: ${tested}${src}`;
 }

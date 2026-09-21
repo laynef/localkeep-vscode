@@ -55,7 +55,11 @@ export class ChatPanel {
         }
       );
     } catch (e: any) {
-      reply = `Error: ${e.message}`;
+      // The webview must see the error too: _history is only re-rendered on
+      // the next send, so a failed chat otherwise shows an empty bubble.
+      const error = `Error: ${e.message}`;
+      reply = error;
+      this._post({ type: 'token', token: error });
     }
     this._history.push({ role: 'assistant', content: reply });
     this._post({ type: 'streaming_end' });
@@ -85,7 +89,7 @@ export class ChatPanel {
 <div id="badge">Sage Chat</div>
 <div id="messages"></div>
 <div id="input-row">
-  <textarea id="input" rows="2" placeholder="Ask Sage anything..."></textarea>
+  <textarea id="input" rows="2" placeholder="Ask Local Keep AI anything..."></textarea>
   <div style="display:flex;flex-direction:column;gap:4px">
     <button id="send-btn">Send</button>
     <button id="clear-btn">Clear</button>

@@ -7,7 +7,7 @@ export class SageStatusBar {
   constructor(ctx: vscode.ExtensionContext) {
     this._item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
     this._item.command = 'lk.listModels';
-    this._item.tooltip = 'Click to switch Sage model';
+    this._item.tooltip = 'Click to switch Local Keep model';
     this.update(readDefaultModel());
     this._item.show();
     ctx.subscriptions.push(this._item);
@@ -15,7 +15,7 @@ export class SageStatusBar {
 
   update(model: string) {
     const short = model.split(':').slice(-1)[0] || model;
-    this._item.text = `$(sparkle) Sage: ${short}`;
+    this._item.text = `$(sparkle) Local Keep: ${short}`;
   }
 
   dispose() { this._item.dispose(); }

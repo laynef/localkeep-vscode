@@ -15,7 +15,7 @@ export function activate(ctx: vscode.ExtensionContext) {
     vscode.commands.registerTextEditorCommand('lk.explain', async (editor) => {
       const context = buildContext(editor);
       const prompt = buildPrompt(context, 'Explain this code clearly and concisely.');
-      await runInPanel(ctx, 'Sage: Explain', prompt, context.workspaceRoot);
+      await runInPanel(ctx, 'Local Keep: Explain', prompt, context.workspaceRoot);
     }),
 
     vscode.commands.registerTextEditorCommand('lk.refactor', async (editor) => {
@@ -23,14 +23,14 @@ export function activate(ctx: vscode.ExtensionContext) {
       const prompt = buildPrompt(context,
         'Refactor this code for clarity, performance, and best practices. ' +
         'Output the improved code inside a FILE: block so it can be applied directly.');
-      await runInPanel(ctx, 'Sage: Refactor', prompt, context.workspaceRoot, true);
+      await runInPanel(ctx, 'Local Keep: Refactor', prompt, context.workspaceRoot, true);
     }),
 
     vscode.commands.registerTextEditorCommand('lk.generateTests', async (editor) => {
       const context = buildContext(editor);
       const prompt = buildPrompt(context,
         'Generate comprehensive unit tests for this file covering happy paths, edge cases, and errors.');
-      await runInPanel(ctx, 'Sage: Generate Tests', prompt, context.workspaceRoot, true);
+      await runInPanel(ctx, 'Local Keep: Generate Tests', prompt, context.workspaceRoot, true);
     }),
 
     vscode.commands.registerTextEditorCommand('lk.fixError', async (editor) => {
@@ -40,7 +40,7 @@ export function activate(ctx: vscode.ExtensionContext) {
         .join('\n');
       const prompt = buildPrompt(context,
         `Fix the following errors:\n${diags || 'Fix any issues visible in the selected code.'}`);
-      await runInPanel(ctx, 'Sage: Fix Error', prompt, context.workspaceRoot, true);
+      await runInPanel(ctx, 'Local Keep: Fix Error', prompt, context.workspaceRoot, true);
     }),
 
     vscode.commands.registerCommand('lk.openChat', () => {
@@ -72,7 +72,7 @@ export function activate(ctx: vscode.ExtensionContext) {
       const task = await vscode.window.showInputBox({ prompt: 'Enter task for Sage agent' });
       if (!task) return;
       const root = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath ?? os.homedir();
-      await runInPanel(ctx, 'Sage: Run', task, root, true);
+      await runInPanel(ctx, 'Local Keep: Run', task, root, true);
     }),
 
     vscode.commands.registerCommand('lk.commitMessage', async () => {
@@ -85,7 +85,7 @@ export function activate(ctx: vscode.ExtensionContext) {
         return;
       }
       const prompt = `Write a git commit message (conventional commits) for:\n\n${diff}`;
-      await runInPanel(ctx, 'Sage: Commit Message', prompt, root);
+      await runInPanel(ctx, 'Local Keep: Commit Message', prompt, root);
     }),
 
     vscode.commands.registerCommand('lk.prDescription', async () => {
@@ -95,7 +95,7 @@ export function activate(ctx: vscode.ExtensionContext) {
       const branch = await new Promise<string>(r =>
         cp.execFile('git', ['rev-parse', '--abbrev-ref', 'HEAD'], { cwd: root }, (_, o) => r(o.trim())));
       const prompt = `Write a GitHub PR description (## Summary, ## Changes, ## Testing) for branch ${branch}:\n\n${log}`;
-      await runInPanel(ctx, 'Sage: PR Description', prompt, root);
+      await runInPanel(ctx, 'Local Keep: PR Description', prompt, root);
     }),
   );
 }
@@ -122,7 +122,14 @@ async function runInPanel(
       panel.webview.html = getResultHtml(title, output, model);
     });
   } catch (e: any) {
-    if (e.message?.includes('not found') || e.code === 'ENOENT') {
+    // Every failure must reach the panel: swallowing one leaves the webview
+    // on the loading screen forever, which reads as a hang, not an error.
+    const notFound = e.message?.includes('not found') || e.code === 'ENOENT';
+    const message = notFound
+      ? 'sage not found. Install: pip install local-keep-ai-cli\nThen run: sage login'
+      : `Error: ${e.message || e}`;
+    panel.webview.html = getResultHtml(title, message, model);
+    if (notFound) {
       vscode.window.showErrorMessage('sage not found. Install: pip install local-keep-ai-cli');
     }
   }
